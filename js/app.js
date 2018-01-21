@@ -42,17 +42,35 @@ var Player = function(x,y) {
 }
 
 Player.prototype.update = function(){
-
+    // Checks for collisions
+    allEnemies.forEach(function(enemy){
+      if(enemy.x - player.x < 50 && enemy.x - player.x > -50 && enemy.y - player.y < 20 && enemy.y - player.y > -20){
+          player.x = 101*2
+          player.y = 5*83-42.5
+      }
+    })
+}
+Player.prototype.handleInput = function(val){
+    if (val=="left" && this.x>0){
+        this.x -= 101;
+    }
+    else if (val=="right" && this.x<404){
+        this.x += 101;
+    }
+    else if (val=="up" && this.y>-42.5){
+        this.y -= 83;
+    }
+    else if(val=="down" && this.y<5*83-42.5){
+        this.y += 83;
+    }
 }
 
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-// Now instantiate your objects.
-// Place all enemy objects in an array called allEnemies
-// Place the player object in a variable called player
 
+// Function that generates integers between a range (endpoints inclusive)
 function getRandomIntInclusive(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -76,5 +94,5 @@ document.addEventListener('keyup', function(e) {
         40: 'down'
     };
 
-    //player.handleInput(allowedKeys[e.keyCode]);
+    player.handleInput(allowedKeys[e.keyCode]);
 });
