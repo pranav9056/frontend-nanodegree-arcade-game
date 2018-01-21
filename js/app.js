@@ -7,12 +7,21 @@ var Enemy = function(x,y) {
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
     this.x = x;
+    this.xLimit = 101*getRandomIntInclusive(5,15);
     this.y = y;
+    this.speed = getRandomIntInclusive(1,4);
 };
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
+    //console.log(this.x);
+    if(this.x>this.xLimit){
+      this.x=1;
+      this.y=getRandomIntInclusive(1,3)*83-42.5;
+      this.speed = getRandomIntInclusive(1,4);
+    }
+    this.x = this.x+this.speed;
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
@@ -53,7 +62,7 @@ function getRandomIntInclusive(min, max) {
 var player = new Player(101*2,5*83-42.5);
 var allEnemies = [];
 for (var i = 0; i < 5; i++){
-    allEnemies.push(new Enemy(101*getRandomIntInclusive(0,5),getRandomIntInclusive(1,3)*83-42.5));
+    allEnemies.push(new Enemy(101*getRandomIntInclusive(0,10),getRandomIntInclusive(1,3)*83-42.5));
 }
 
 
