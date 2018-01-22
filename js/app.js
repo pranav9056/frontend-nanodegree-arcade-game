@@ -40,6 +40,8 @@ var Player = function(x,y) {
     this.lifes = 3;
     this.x = x;
     this.y = y;
+    this.score = 0;
+    this.highScore = 0;
 }
 
 Player.prototype.update = function(){
@@ -49,11 +51,17 @@ Player.prototype.update = function(){
           player.x = 101*2;
           player.y = 5*83-42.5;
           player.lifes -= 1;
-
-
       }
     })
+    if(this.y == -42.5){
+        this.x = 101*2;
+        this.y = 5*83-42.5;
+        this.score += 5;
+        if(this.highScore < this.score)
+          this.highScore = this.score;
+    }
 }
+//Moves player based on input
 Player.prototype.handleInput = function(val){
   if(this.lifes != 0){
     if (val=="left" && this.x>0){
@@ -76,7 +84,18 @@ Player.prototype.render = function() {
     for(var i = 0; i<this.lifes;i++){
         ctx.drawImage(Resources.get('images/Heart.png'), 5+30*i, 505,30,30);
     }
+    ctx.fillStyle = 'black';
+    ctx.font = "bold 1em sans-serif";
+    ctx.baseline = "bottom";
+    ctx.fillText("Score:  "+this.score,110,90);
+    ctx.fillText("High Score:  "+this.highScore,310,90);
+
 };
+// To restart game
+Player.prototype.reset = function(){
+    this.lifes = 3;
+    this.score = 0;
+}
 
 
 // Function that generates integers between a range (endpoints inclusive)
