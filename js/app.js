@@ -37,6 +37,7 @@ Enemy.prototype.render = function() {
 // a handleInput() method.
 var Player = function(x,y) {
     this.sprite = 'images/char-boy.png';
+    this.lifes = 3;
     this.x = x;
     this.y = y;
 }
@@ -45,12 +46,16 @@ Player.prototype.update = function(){
     // Checks for collisions
     allEnemies.forEach(function(enemy){
       if(enemy.x - player.x < 50 && enemy.x - player.x > -50 && enemy.y - player.y < 20 && enemy.y - player.y > -20){
-          player.x = 101*2
-          player.y = 5*83-42.5
+          player.x = 101*2;
+          player.y = 5*83-42.5;
+          player.lifes -= 1;
+
+
       }
     })
 }
 Player.prototype.handleInput = function(val){
+  if(this.lifes != 0){
     if (val=="left" && this.x>0){
         this.x -= 101;
     }
@@ -63,10 +68,14 @@ Player.prototype.handleInput = function(val){
     else if(val=="down" && this.y<5*83-42.5){
         this.y += 83;
     }
+  }
 }
 
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    for(var i = 0; i<this.lifes;i++){
+        ctx.drawImage(Resources.get('images/Heart.png'), 5+30*i, 505,30,30);
+    }
 };
 
 
