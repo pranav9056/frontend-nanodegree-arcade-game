@@ -9,7 +9,7 @@ This is a simple arcade game created using the Canvas element. The goal of the g
 Playing the Game
 ----------------
 
-* The game can be played at [here](http://pranavjain.info/frontend-nanodegree-arcade-game/). 
+* The game can be played [here](http://pranavjain.info/frontend-nanodegree-arcade-game/). 
 * Select your avatar by clicking on the figure that you like.
 * Use arrow keys to move the player.
 * Have fun making the high score.
