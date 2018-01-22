@@ -1,15 +1,14 @@
 body {
-    text-align: center;
+     text-align: center;
 }
-.canvas-container{
-    display: flex;
-    justify-content: space-around;
+ .canvas-container{
+     display: flex;
+     justify-content: space-around;
 }
-.options{
-    display: flex;
-    max-height: 50px;
-    max-width: 100px;
-    flex-flow: row;
+ .options{
+     display: flex;
+     max-height: 50px;
+     max-width: 100px;
+     flex-flow: row;
 }
-#avatar{
-}
+ 

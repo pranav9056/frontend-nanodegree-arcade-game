@@ -12,7 +12,6 @@
  * This engine makes the canvas' context (ctx) object globally available to make
  * writing app.js a little simpler to work with.
  */
-
 var Engine = (function(global) {
     /* Predefine the variables we'll be using within this scope,
      * create the canvas element, grab the 2D context for that canvas
@@ -24,7 +23,7 @@ var Engine = (function(global) {
         ctx = canvas.getContext('2d'),
         lastTime,
         renderMode;
-    canvas.setAttribute('id','canvas');
+    canvas.setAttribute('id', 'canvas');
     canvas.width = 505;
     canvas.height = 606;
     //doc.body.appendChild(canvas);
@@ -108,25 +107,25 @@ var Engine = (function(global) {
          * for that particular row of the game level.
          */
         var rowImages = [
-                'images/water-block.png',   // Top row is water
-                'images/stone-block.png',   // Row 1 of 3 of stone
-                'images/stone-block.png',   // Row 2 of 3 of stone
-                'images/stone-block.png',   // Row 3 of 3 of stone
-                'images/grass-block.png',   // Row 1 of 2 of grass
-                'images/grass-block.png'    // Row 2 of 2 of grass
+                'images/water-block.png', // Top row is water
+                'images/stone-block.png', // Row 1 of 3 of stone
+                'images/stone-block.png', // Row 2 of 3 of stone
+                'images/stone-block.png', // Row 3 of 3 of stone
+                'images/grass-block.png', // Row 1 of 2 of grass
+                'images/grass-block.png' // Row 2 of 2 of grass
             ],
             numRows = 6,
             numCols = 5,
             row, col;
 
         var charImg = [
-              'images/char-boy.png',
-              'images/char-cat-girl.png',
-              'images/char-horn-girl.png',
-              'images/char-pink-girl.png',
-              'images/char-princess-girl.png'
-            ];
-        if(renderMode == 1){
+            'images/char-boy.png',
+            'images/char-cat-girl.png',
+            'images/char-horn-girl.png',
+            'images/char-pink-girl.png',
+            'images/char-princess-girl.png'
+        ];
+        if (renderMode == 1) {
             for (row = 0; row < numRows; row++) {
                 for (col = 0; col < numCols; col++) {
                     /* The drawImage function of the canvas' context element
@@ -136,14 +135,12 @@ var Engine = (function(global) {
                      * so that we get the benefits of caching these images, since
                      * we're using them over and over.
                      */
-                    if(row==5){
-                      ctx.drawImage(Resources.get('images/water-block.png'), col * 101, row * 83);
+                    if (row == 5) {
+                        ctx.drawImage(Resources.get('images/water-block.png'), col * 101, row * 83);
 
-                    }
-                    else if(row !=2 ){
+                    } else if (row != 2) {
                         ctx.drawImage(Resources.get('images/grass-block.png'), col * 101, row * 83);
-                    }
-                    else {
+                    } else {
                         ctx.drawImage(Resources.get('images/Rock.png'), col * 101, row * 83);
                     }
                     //ctx.drawImage(Resources.get('images/Rock.png'), col * 101, row * 83);
@@ -154,22 +151,21 @@ var Engine = (function(global) {
             ctx.font = "bold 2em sans-serif";
             ctx.fillText("Select Your Avatar", 120, 100);
 
-            ctx.fillRect(202,410,100,30);
+            ctx.fillRect(202, 410, 100, 30);
             ctx.fillStyle = 'black';
             ctx.font = "bold 1em sans-serif";
             ctx.baseline = "bottom";
-            ctx.fillText("Let's Play",215,430);
+            ctx.fillText("Let's Play", 215, 430);
             for (col = 0; col < charImg.length; col++) {
-                ctx.drawImage(Resources.get(charImg[col]), 101*col, 2*83-42.5);
+                ctx.drawImage(Resources.get(charImg[col]), 101 * col, 2 * 83 - 42.5);
             }
-        }
-        else if (renderMode == 2) {
+        } else if (renderMode == 2) {
             /* Loop through the number of rows and columns we've defined above
              * and, using the rowImages array, draw the correct image for that
              * portion of the "grid"
              */
-             // Before drawing, clear existing canvas
-            ctx.clearRect(0,0,canvas.width,canvas.height);
+            // Before drawing, clear existing canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             for (row = 0; row < numRows; row++) {
                 for (col = 0; col < numCols; col++) {
@@ -186,16 +182,16 @@ var Engine = (function(global) {
             ctx.fillStyle = 'black';
             ctx.font = "bold 1em sans-serif";
             ctx.baseline = "bottom";
-            ctx.fillText("Restart",10,90);
+            ctx.fillText("Restart", 10, 90);
             renderEntities();
-            if(player.lifes == 0){
-              ctx.fillStyle = 'black';
-              ctx.font = "bold 3em sans-serif";
-              ctx.baseline = "bottom";
-              ctx.fillText("GAME OVER",105,430);
+            if (player.lifes == 0) {
+                ctx.fillStyle = 'black';
+                ctx.font = "bold 3em sans-serif";
+                ctx.baseline = "bottom";
+                ctx.fillText("GAME OVER", 105, 430);
             }
 
-      }
+        }
     }
 
     /* This function is called by the render function and is called on each game
@@ -223,52 +219,46 @@ var Engine = (function(global) {
     }
 
     //  Click Event Handler on canvas for Player Select/Restart
-    $("#canvas").click(function(evt){
+    $("#canvas").click(function(evt) {
         var x = evt.clientX - canvas.offsetLeft;
         var y = evt.clientY - canvas.offsetTop;
-        console.log("x,y:"+x+","+y);
+        console.log("x,y:" + x + "," + y);
         var img = 'images/Selector.png';
-        if(x>202 && x<303 && y>350 && y<500 && renderMode == 1){
+        if (x > 202 && x < 303 && y > 350 && y < 500 && renderMode == 1) {
             renderMode = 2;
-            if(player.lifes==0)
-              player.reset();
-        }
-        else if(y>180 && y<288 && x>20 && x<80 && renderMode == 1){
+            if (player.lifes == 0)
+                player.reset();
+        } else if (y > 180 && y < 288 && x > 20 && x < 80 && renderMode == 1) {
             player.sprite = 'images/char-boy.png';
-            ctx.clearRect(0,0,canvas.width,canvas.height);
-            ctx.drawImage(Resources.get(img), 0,150);
-        }
-        else if(y>180 && y<288 && x>121 && x<181 && renderMode == 1){
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(Resources.get(img), 0, 150);
+        } else if (y > 180 && y < 288 && x > 121 && x < 181 && renderMode == 1) {
             player.sprite = 'images/char-cat-girl.png';
-            ctx.clearRect(0,0,canvas.width,canvas.height);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.drawImage(Resources.get(img), 101, 150);
 
-        }
-        else if(y>180 && y<288 && x>222 && x<282 && renderMode == 1){
+        } else if (y > 180 && y < 288 && x > 222 && x < 282 && renderMode == 1) {
             player.sprite = 'images/char-horn-girl.png';
-            ctx.clearRect(0,0,canvas.width,canvas.height);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.drawImage(Resources.get(img), 202, 150);
 
-        }
-        else if(y>180 && y<288 && x>323 && x<383 && renderMode == 1){
+        } else if (y > 180 && y < 288 && x > 323 && x < 383 && renderMode == 1) {
             player.sprite = 'images/char-pink-girl.png';
-            ctx.clearRect(0,0,canvas.width,canvas.height);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.drawImage(Resources.get(img), 303, 150);
 
-        }
-        else if(y>180 && y<288 && x>424 && x<484 && renderMode == 1){
+        } else if (y > 180 && y < 288 && x > 424 && x < 484 && renderMode == 1) {
             player.sprite = 'images/char-princess-girl.png';
-            ctx.clearRect(0,0,canvas.width,canvas.height);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.drawImage(Resources.get(img), 404, 150);
 
-        }
-        else if (x>0 && x<100 && y>50 && y <120 && renderMode == 2){
+        } else if (x > 0 && x < 100 && y > 50 && y < 120 && renderMode == 2) {
             player.reset();
         }
     });
     // on click event handler for button1
-    $('#button1').click(function(){
-        ctx.clearRect(0,0,canvas.width,canvas.height);
+    $('#button1').click(function() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
         renderMode = 1;
 
     });
