@@ -22,12 +22,13 @@ var Engine = (function(global) {
         win = global.window,
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
-        lastTime;
-
+        lastTime,
+        renderMode;
+    canvas.setAttribute('id','canvas');
     canvas.width = 505;
     canvas.height = 606;
-    doc.body.appendChild(canvas);
-
+    //doc.body.appendChild(canvas);
+    $('.game').append(canvas);
     /* This function serves as the kickoff point for the game loop itself
      * and handles properly calling the update and render methods.
      */
@@ -118,27 +119,62 @@ var Engine = (function(global) {
             numCols = 5,
             row, col;
 
+        var charImg = [
+              'images/char-boy.png',
+              'images/char-cat-girl.png',
+              'images/char-horn-girl.png',
+              'images/char-pink-girl.png',
+              'images/char-princess-girl.png'
+            ];
         // Before drawing, clear existing canvas
-        ctx.clearRect(0,0,canvas.width,canvas.height)
+        if(renderMode == 1){
 
-        /* Loop through the number of rows and columns we've defined above
-         * and, using the rowImages array, draw the correct image for that
-         * portion of the "grid"
-         */
-        for (row = 0; row < numRows; row++) {
-            for (col = 0; col < numCols; col++) {
-                /* The drawImage function of the canvas' context element
-                 * requires 3 parameters: the image to draw, the x coordinate
-                 * to start drawing and the y coordinate to start drawing.
-                 * We're using our Resources helpers to refer to our images
-                 * so that we get the benefits of caching these images, since
-                 * we're using them over and over.
-                 */
-                ctx.drawImage(Resources.get(rowImages[row]), col * 101, row * 83);
+            for (var x = 0.5; x < 505; x += 10) {
+              ctx.moveTo(x, 0);
+              ctx.lineTo(x, 606);
+            }
+            for (var y = 0.5; y < 606; y += 10) {
+              ctx.moveTo(0, y);
+              ctx.lineTo(505, y);
+            }
+            ctx.strokeStyle = "blue";
+            ctx.stroke();
+
+            ctx.fillStyle = "purple"
+            ctx.font = "bold 2em sans-serif";
+            ctx.fillText("Select Your Avatar", 120, 100);
+
+            ctx.fillRect(200,380,100,30);
+            ctx.fillStyle = 'black';
+            ctx.font = "bold 1em sans-serif";
+            ctx.baseline = "bottom";
+            ctx.fillText("Let's Play",215,400);
+            for (col = 0; col < charImg.length; col++) {
+                ctx.drawImage(Resources.get(charImg[col]), 101*col, 150);
             }
         }
+        else if (renderMode == 2) {
+            /* Loop through the number of rows and columns we've defined above
+             * and, using the rowImages array, draw the correct image for that
+             * portion of the "grid"
+             */
+            ctx.clearRect(0,0,canvas.width,canvas.height);
 
-        renderEntities();
+            for (row = 0; row < numRows; row++) {
+                for (col = 0; col < numCols; col++) {
+                    /* The drawImage function of the canvas' context element
+                     * requires 3 parameters: the image to draw, the x coordinate
+                     * to start drawing and the y coordinate to start drawing.
+                     * We're using our Resources helpers to refer to our images
+                     * so that we get the benefits of caching these images, since
+                     * we're using them over and over.
+                     */
+                    ctx.drawImage(Resources.get(rowImages[row]), col * 101, row * 83);
+                }
+            }
+
+            renderEntities();
+      }
     }
 
     /* This function is called by the render function and is called on each game
@@ -161,8 +197,47 @@ var Engine = (function(global) {
      * those sorts of things. It's only called once by the init() method.
      */
     function reset() {
+        renderMode = 1;
         // noop
     }
+
+    $("#canvas").click(function(evt){
+        var x = evt.clientX - canvas.offsetLeft;
+        var y = evt.clientY - canvas.offsetTop;
+        console.log("x,y:"+x+","+y);
+        var img = 'images/Star.png';
+        if(x>200 && x<300 && y>300 && y<410 && renderMode == 1)
+            renderMode = 2;
+        else if(y>212 && y<288 && x>20 && x<80 && renderMode == 1){
+            player.sprite = 'images/char-boy.png';
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            ctx.drawImage(Resources.get(img), 0, 150);
+        }
+        else if(y>212 && y<288 && x>121 && x<181 && renderMode == 1){
+            player.sprite = 'images/char-cat-girl.png';
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            ctx.drawImage(Resources.get(img), 101, 150);
+
+        }
+        else if(y>212 && y<288 && x>222 && x<282 && renderMode == 1){
+            player.sprite = 'images/char-horn-girl.png';
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            ctx.drawImage(Resources.get(img), 202, 150);
+
+        }
+        else if(y>212 && y<288 && x>323 && x<383 && renderMode == 1){
+            player.sprite = 'images/char-pink-girl.png';
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            ctx.drawImage(Resources.get(img), 303, 150);
+
+        }
+        else if(y>212 && y<288 && x>424 && x<484 && renderMode == 1){
+            player.sprite = 'images/char-princess-girl.png';
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            ctx.drawImage(Resources.get(img), 404, 150);
+
+        }
+    });
 
     /* Go ahead and load all of the images we know we're going to need to
      * draw our game level. Then set init as the callback method, so that when
@@ -173,7 +248,14 @@ var Engine = (function(global) {
         'images/water-block.png',
         'images/grass-block.png',
         'images/enemy-bug.png',
-        'images/char-boy.png'
+        'images/char-boy.png',
+        'images/char-cat-girl.png',
+        'images/char-horn-girl.png',
+        'images/char-pink-girl.png',
+        'images/char-princess-girl.png',
+        'images/Star.png'
+
+
     ]);
     Resources.onReady(init);
 
